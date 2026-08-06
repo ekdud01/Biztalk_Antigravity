@@ -83,24 +83,24 @@ AI도 사람도 "끝"의 기준이 명확해야 헤매지 않습니다. 기준 �
 
 ### 백엔드
 
-- [ ] FastAPI 서버가 로컬에서 정상 실행된다 (`uvicorn main:app`)
-- [ ] Health Check 기능이 존재해야 한다
-- [ ] `POST /api/convert` 엔드포인트가 존재한다
-- [ ] Upstage Solar-Pro3 API 호출이 정상 작동한다
-- [ ] 수신 대상(4종)에 따라 다른 프롬프트가 적용된다
-- [ ] CORS 설정이 되어 있어 프론트엔드에서 호출 가능하다
-- [ ] `.env` 파일로 API 키를 관리하고, `.gitignore`에 등록되어 있다
-- [ ] FastAPI 서버에 Staic Page(`index.html`) 라우팅 기능이 있어야 한다
-- [ ] Swagger UI(/docs)를 통해 API 문서를 브라우저에서 확인할 수 있다
+- [x] FastAPI 서버가 로컬에서 정상 실행된다 (`uvicorn main:app`)
+- [x] Health Check 기능이 존재해야 한다
+- [x] `POST /api/convert` 엔드포인트가 존재한다
+- [x] Upstage Solar-Pro3 API 호출이 정상 작동한다
+- [x] 수신 대상(4종)에 따라 다른 프롬프트가 적용된다
+- [x] CORS 설정이 되어 있어 프론트엔드에서 호출 가능하다
+- [x] `.env` 파일로 API 키를 관리하고, `.gitignore`에 등록되어 있다
+- [x] FastAPI 서버에 Staic Page(`index.html`) 라우팅 기능이 있어야 한다
+- [x] Swagger UI(/docs)를 통해 API 문서를 브라우저에서 확인할 수 있다
 
 ### 프론트엔드
 
-- [ ] 텍스트 입력창이 있다
-- [ ] 수신 대상 선택 버튼이 있다 (4종)
-- [ ] [변환하기] 버튼 클릭 시 API를 호출한다
-- [ ] 처리 중 로딩 표시가 나타난다
-- [ ] 변환 결과가 화면에 출력된다
-- [ ] [복사하기] 버튼이 작동한다
+- [x] 텍스트 입력창이 있다
+- [x] 수신 대상 선택 버튼이 있다 (4종)
+- [x] [변환하기] 버튼 클릭 시 API를 호출한다
+- [x] 처리 중 로딩 표시가 나타난다
+- [x] 변환 결과가 화면에 출력된다
+- [x] [복사하기] 버튼이 작동한다
 
 ### 배포
 
@@ -129,8 +129,12 @@ AI도 사람도 "끝"의 기준이 명확해야 헤매지 않습니다. 기준 �
 # Python 버전 확인 (3.11 이상)
 python --version
 
+# uv를 사용한 가상환경 생성 및 활성화
+uv venv
+.venv\Scripts\activate
+
 # 패키지 설치
-pip install fastapi uvicorn langchain python-dotenv langchain-upstage
+uv pip install fastapi uvicorn langchain python-dotenv langchain-upstage
 
 # Git 설치 확인
 git --version
@@ -155,7 +159,7 @@ UPSTAGE_API_KEY=your_api_key_here
 |----|------|------|
 | F-01 | 텍스트 입력 | 사용자가 변환할 원문을 자유롭게 입력 |
 | F-02 | 수신 대상 선택 | 상사 / 타팀 동료 / 고객 / 팀 내 동료 중 선택 |
-| F-03 | 말투 변환 처리 | FastAPI → LangChain → solar-pro3 호출 |
+| F-03 | 말투 변환 처리 | FastAPI → LangChain → Solar-Pro3 호출 |
 | F-04 | 결과 출력 | 변환된 텍스트를 화면에 표시 |
 | F-05 | 로딩 표시 | API 호출 중 처리 중 상태 표시 |
 | F-06 | 결과 복사 | 변환 결과를 클립보드에 복사 |
@@ -203,13 +207,13 @@ PROMPTS = {
 ```
 biztalk_antigravity/
 │
-├── .venv/                      # 가상환경
+├── .venv/                      # 가상환경 
 ├── backend/
 │   ├── main.py                 # FastAPI 앱 + CORS 설정
 │   ├── routers/
 │   │   └── convert.py          # /api/convert 라우터
 │   ├── services/
-│   │   └── tone_converter.py   # LangChain + solar-pro3 연동
+│   │   └── tone_converter.py   # LangChain + Solar-Pro3 연동
 │   ├── prompts/
 │   │   └── templates.py        # 대상별 프롬프트 템플릿
 │   ├── models/
@@ -290,27 +294,28 @@ FastAPI는 Swagger UI를 기본 제공하므로 서버가 기동 중인 상태�
 
 ## 8. 단계별 구현 순서
 
-### [ ] STEP 1. 환경 준비
+### [x] STEP 1. 환경 준비
 
 1. GitHub 레포지토리 생성 (`biztalk_antigravity`)
 2. 디렉토리 구조 생성
 3. `.gitignore` 작성 — `.env` 반드시 포함
 4. Upstage API 키 발급 및 `.env` 파일 작성
 5. `backend/requirements.txt` 작성하고 의존성의 최신 버전(use context7)을 명시해야 함
-6. 가상환경(`.venv`) 폴더를 생성하고 `backend/requirements.txt` 명시된 의존성을 가상환경 폴더에 설치해야 함
+6. uv를 사용하여 가상환경(`.venv`) 폴더를 생성하고 `backend/requirements.txt`에 명시된 의존성을 가상환경 폴더에 설치해야 함 (`uv venv` 및 `uv pip install -r backend/requirements.txt`)
 
 ---
 
-### [ ] STEP 2. 백엔드 구현 
+### [x] STEP 2. 백엔드 구현 
 
 > 원칙 2 적용: 구현 전 Solar-Pro3 연동 방식을 먼저 확인하세요.
-- Upstage 공식 문서를 반드시 먼저 확인하세요. [Upstage Console](https://console.upstage.ai/)
+- Upstage 공식 문서를 반드시 먼저 확인하세요 [Upstage Console](https://console.upstage.ai/)
 
 **구현 순서**
 
 1. `schemas.py` — 데이터 모델 정의(요청/응답 데이터 모델 정의)
 2. `templates.py` — 프롬프트 템플릿 작성(수신 대상별 프롬프트 템플릿 작성)
-3. `tone_converter.py` — 핵심 변환 로직 구현(LangChain + solar-pro3 연동)
+3. `tone_converter.py` — 핵심 변환 로직 구현(LangChain + Solar-Pro3 연동)
+    * model="solar-pro3"
 4. `convert.py` — API 라우터 구현
 5. `main.py` — 메인 앱 설정(FastAPI 앱 + CORS 설정)
 6. 로컬 서버 실행 및 테스트 (`uvicorn main:app --reload`)
@@ -351,7 +356,7 @@ app.include_router(convert.router, prefix="/api")
 
 ---
 
-### [ ] STEP 3. 프론트엔드 구현
+### [x] STEP 3. 프론트엔드 구현
 
 **구현 순서**
 
@@ -486,9 +491,9 @@ pydantic
 ### 로컬 실행 명령어
 
 ```bash
-# 백엔드 실행
+# 백엔드 실행 (uv run을 사용하여 실행)
 cd backend
-uvicorn main:app --reload --port 8000
+uv run uvicorn main:app --reload --port 8000
 
 # 프론트엔드 확인
 # frontend/index.html을 브라우저에서 직접 열거나 VS Code Live Server 사용
